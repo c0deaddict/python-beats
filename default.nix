@@ -1,15 +1,5 @@
-with import <nixpkgs> {};
+with import "/home/jos/Projects/Nix/nixpkgs" {};
 
-let dependencies = rec {
-  _sounddevice = with python36Packages; sounddevice.overrideAttrs (oldAttrs: {
-    name = "sounddevice";
-    prePatch = ''
-      substituteInPlace src/sounddevice.py --replace "_find_library('portaudio')" "'${portaudio}/lib/libportaudio.so.2'"
-    '';
-  });
-};
-
-in with dependencies;
 stdenv.mkDerivation rec {
   name = "env";
 
@@ -25,7 +15,7 @@ stdenv.mkDerivation rec {
     python36Packages.matplotlib
     python36Packages.ipython_6
     python36Packages.pyqt5
-    _sounddevice
+    python36Packages.sounddevice
   ];
 
   shellHook = ''
